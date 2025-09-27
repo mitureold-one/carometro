@@ -1,15 +1,13 @@
 package Escola.Projeto.Carometro.Modelos;
 
 public class Usuario {
-    private String idusuario;
     private String nome;
     private String anonascimeto;
     private String email;
     private String senha;
     private String numero;
 
-    public Usuario(String idusuario, String nome, String anonascimeto, String email, String senha, String numero) {
-        this.idusuario = idusuario;
+    public Usuario( String nome, String anonascimeto, String email, String senha, String numero) {
         this.nome = nome;
         this.anonascimeto = anonascimeto;
         this.email = email;
@@ -17,14 +15,24 @@ public class Usuario {
         this.numero = numero;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getAnonascimeto() {
+        return anonascimeto;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
     @Override
     public String toString() {
-        return "idusuario='" + idusuario + '\'' +
-                ", nome='" + nome + '\'' +
-                ", anonascimeto='" + anonascimeto + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", numero='" + numero + '\'' +
-                '}';
+        return nome +" "+ anonascimeto +" "+email +" "+ senha + numero;
     }
 }
