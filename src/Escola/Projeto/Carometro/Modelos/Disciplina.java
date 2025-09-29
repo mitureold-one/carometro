@@ -11,8 +11,16 @@ public class Disciplina {
         this.nome = nome;
     }
 
+    public void getnome () {
+        this.nome = nome;
+    }
+
     @Override
     public String toString() {
         return "nome= " + nome;
+    }
+
+    public String getNome() {
+        return this.nome = nome;
     }
 }
