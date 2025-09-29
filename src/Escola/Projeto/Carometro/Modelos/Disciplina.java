@@ -7,5 +7,12 @@ public class Disciplina {
     private List<Alunos> alunos;
     private List<Professor> professores;
 
+    public Disciplina(String nome) {
+        this.nome = nome;
+    }
 
+    @Override
+    public String toString() {
+        return "nome= " + nome;
+    }
 }

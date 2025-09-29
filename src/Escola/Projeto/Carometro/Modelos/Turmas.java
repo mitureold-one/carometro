@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Turmas {
-    private String idturma;
     private String nome;
     private List<Alunos> alunos;
 
     //*Construtor da classe 'TURMA'*//
-    public Turmas(String idturma, String nome) {
-        this.idturma = idturma;
+    public Turmas( String nome) {
         this.nome = nome;
         this.alunos = new ArrayList<>();
     }

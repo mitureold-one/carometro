@@ -1,17 +1,26 @@
 package Escola.Projeto.Carometro.Pricipal;
 
-import Escola.Projeto.Carometro.Modelos.Alunos;
-import Escola.Projeto.Carometro.Modelos.Professor;
-import Escola.Projeto.Carometro.Modelos.Turmas;
+import Escola.Projeto.Carometro.Modelos.*;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        List<String> alternativas = List.of(
+                "Brasília",
+                "São Luís",
+                "Belém",
+                "São Paulo"
+        );
+        //*populando classes*//
+        Disciplina disciplinaum = new Disciplina("Geografia");
         Alunos aluno = new Alunos("Naruto","2004-05-13","narutinho@gmail.com","Sasuke","(99) 9xxxx-xxxx");
         Alunos Novoaluno = new Alunos("Sasuke","2005-10-06","vingador@gmail.com","nartuinho","(99) 9xxxx-xxxx");
         Professor professor = new Professor("Hemilly", "2003-09-06","hemilly@gmail.com","hemilly","(99)9xxxx-xxxx");
         Professor Novaprofessor = new Professor("Caio","1990-10-05","caio@gmail.com","caio","(99)9xxxx-xxxx");
+        Perguntas pergunta =new Perguntas("Qual a capital do brasil?", disciplinaum,alternativas, (byte) 1, professor);
 
-        Turmas turma = new Turmas("TM-001","1°ano A");
+        Turmas turma = new Turmas("1°ano A");
         turma.addAlunos(aluno);
         turma.addAlunos(Novoaluno);
 
@@ -25,7 +34,7 @@ public class Main {
 
 
         System.out.println("Na turma do "+ turma.getNome() + " estão matriculados os alunos"+ turma.listarAlunos());
-
+        System.out.println(pergunta);
 
     }
 
