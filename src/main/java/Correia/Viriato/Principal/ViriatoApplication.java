@@ -1,0 +1,10 @@
+package Correia.Viriato.Principal;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ViriatoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ViriatoApplication.class, args);
+    }
+}
