@@ -29,9 +29,9 @@ public class AvaliacaoDAO {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            Date data = dto.getData_avaliacao() != null
-                    ? dto.getData_avaliacao()
-                    : new Date(System.currentTimeMillis());
+            java.sql.Date data = dto.getData_avaliacao() != null
+                    ? new java.sql.Date(dto.getData_avaliacao().getTime())
+                    : new java.sql.Date(System.currentTimeMillis());
 
             ps.setString(1, dto.getDisciplina_id());
             ps.setString(2, dto.getAluno_id());
@@ -45,38 +45,24 @@ public class AvaliacaoDAO {
         }
     }
 
-    public AvaliacaoDTO buscarPorAlunoEDisciplina(String alunoId, String disciplinaId) throws SQLException {
-        String sql = """
-            SELECT * FROM disciplina_avaliacao
-            WHERE aluno_id = ? AND disciplina_id = ?;
-        """;
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, alunoId);
-            stmt.setString(2, disciplinaId);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetParaDTO(rs);
-            }
-        }
-
-        return null;
-    }
-
     public List<AvaliacaoDTO> listarPorAluno(String alunoId) throws SQLException {
         List<AvaliacaoDTO> avaliacoes = new ArrayList<>();
-        String sql = "SELECT * FROM disciplina_avaliacao WHERE aluno_id = ?;";
-
+        String sql = """
+        SELECT d.disciplina_id,p.nome_disciplina, d.aluno_id, d.data_avaliacao, d.sociabilidade,
+               d.participacao, d.responsabilidade, d.assiduidade
+        FROM disciplina_avaliacao d
+        join disciplina p on p.disciplina_id = d.disciplina_id
+        WHERE aluno_id = ?;
+    """;
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, alunoId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                avaliacoes.add(mapResultSetParaDTO(rs));
+            ps.setString(1, alunoId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    avaliacoes.add(mapResultSetParaDTO(rs)); // usa o mapeamento centralizado
+                }
             }
         }
 
@@ -93,9 +79,9 @@ public class AvaliacaoDAO {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            Date data = dto.getData_avaliacao() != null
-                    ? dto.getData_avaliacao()
-                    : new Date(System.currentTimeMillis());
+            java.sql.Date data = dto.getData_avaliacao() != null
+                    ? new java.sql.Date(dto.getData_avaliacao().getTime())
+                    : new java.sql.Date(System.currentTimeMillis());
 
             ps.setInt(1, dto.getSociabilidade());
             ps.setInt(2, dto.getParticipacao());
@@ -112,6 +98,7 @@ public class AvaliacaoDAO {
     private AvaliacaoDTO mapResultSetParaDTO(ResultSet rs) throws SQLException {
         AvaliacaoDTO dto = new AvaliacaoDTO();
         dto.setDisciplina_id(rs.getString("disciplina_id"));
+        dto.setNome_disciplina(rs.getString("nome_disciplina")); // <-- novo campo
         dto.setAluno_id(rs.getString("aluno_id"));
         dto.setData_avaliacao(rs.getDate("data_avaliacao"));
         dto.setSociabilidade(rs.getInt("sociabilidade"));
@@ -120,34 +107,4 @@ public class AvaliacaoDAO {
         dto.setAssiduidade(rs.getInt("assiduidade"));
         return dto;
     }
-
-    public List<AvaliacaoDTO> listarAvaliacoesPorAluno(String alunoId) throws SQLException {
-        List<AvaliacaoDTO> avaliacoes = new ArrayList<>();
-        String sql = """
-        SELECT * FROM disciplina_avaliacao WHERE aluno_id = ?;
-    """;
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, alunoId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                AvaliacaoDTO dto = new AvaliacaoDTO();
-                dto.setDisciplina_id(rs.getString("disciplina_id"));
-                dto.setAluno_id(rs.getString("aluno_id"));
-                dto.setData_avaliacao(rs.getDate("data_avaliacao"));
-                dto.setSociabilidade(rs.getInt("socialibidade"));
-                dto.setParticipacao(rs.getInt("participacao"));
-                dto.setResponsabilidade(rs.getInt("responsabilidade"));
-                dto.setAssiduidade(rs.getInt("assiduidade"));
-                avaliacoes.add(dto);
-            }
-        }
-        return avaliacoes;
-    }
-
-
 }
-

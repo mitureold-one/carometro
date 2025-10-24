@@ -1,5 +1,6 @@
 package Correia.Viriato.Principal.Service.Aluno;
 
+import Correia.Viriato.Principal.Service.Avalicao.AvaliacaoDAO;
 import Correia.Viriato.Principal.Service.Usuario.UsuarioDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,20 +11,24 @@ public class AlunoDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public AlunoDAO(JdbcTemplate jdbcTemplate) {
+
+    public AlunoDAO(JdbcTemplate jdbcTemplate, AvaliacaoDAO avaliacaoDAO) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     // Completa dados do aluno no DTO
-    public void completarDadosAluno(UsuarioDTO usuario) {
+    public AlunoDTO buscarAlunoPorUserId(String userId) {
         String sql = "SELECT * FROM aluno WHERE aluno_id = ?";
-        jdbcTemplate.queryForObject(sql, new Object[]{usuario.getUser_id()}, (rs, rowNum) -> {
-            usuario.setMatricula(rs.getString("matricula"));
-            usuario.setTelefone_aluno(rs.getString("telefone_aluno"));
-            usuario.setTelefone_responsavel(rs.getString("telefone_responsavel"));
-            return usuario;
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, (rs, rowNum) -> {
+            AlunoDTO aluno = new AlunoDTO();
+            aluno.setMatricula(rs.getString("matricula"));
+            aluno.setTelefone_aluno(rs.getString("telefone_aluno"));
+            aluno.setTelefone_responsavel(rs.getString("telefone_responsavel"));
+            return aluno;
         });
     }
+
 
     // Salvar aluno
     public void salvarAluno(String idUser, String matricula, String telefoneAluno, String telefoneResponsavel) {

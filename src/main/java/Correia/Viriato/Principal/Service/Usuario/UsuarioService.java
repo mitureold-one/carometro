@@ -4,8 +4,8 @@ import Correia.Viriato.Principal.Modelos.Usuario;
 import Correia.Viriato.Principal.Service.Adm.AdministradorDAO;
 import Correia.Viriato.Principal.Service.Aluno.AlunoDAO;
 import Correia.Viriato.Principal.Service.Aluno.AlunoDTO;
+import Correia.Viriato.Principal.Service.Aluno.AlunoService;
 import Correia.Viriato.Principal.Service.Avalicao.AvaliacaoDAO;
-import Correia.Viriato.Principal.Service.Avalicao.AvaliacaoDTO;
 import Correia.Viriato.Principal.Service.Disciplina.DisciplinaDAO;
 import Correia.Viriato.Principal.Service.Professor.ProfessorDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -31,6 +28,9 @@ public class UsuarioService {
 
     @Autowired
     private AvaliacaoDAO avaliacaoDAO;
+
+    @Autowired
+    private AlunoService alunoService;
 
     @Autowired
     public UsuarioService(UsuarioDAO usuarioDAO,
@@ -96,24 +96,28 @@ public class UsuarioService {
 
         if (usuario == null) return null;
 
-        String tipo = usuario.getTipo().toUpperCase();
+        String tipo = usuario.getTipo() != null ? usuario.getTipo().toUpperCase() : "";
+
         switch (tipo) {
             case "ALUNO":
-                alunoDAO.completarDadosAluno(usuario);
+                // Buscar os dados específicos do aluno (matrícula e telefones)
+                AlunoDTO dadosAluno = alunoDAO.buscarAlunoPorUserId(userId);
+                // Unir os dados e retornar
+                AlunoDTO alunoCompleto = alunoService.completarPerfilAluno(usuario, dadosAluno);
+                return alunoCompleto;
 
-                break;
             case "PROFESSOR":
-                professorDAO.completarDadosProfessor(usuario);
-                break;
+                return professorDAO.completarDadosProfessor(usuario);
+
             case "ADMIN":
             case "ADM":
-                administradorDAO.completarDadosAdmin(usuario);
-                break;
+                return administradorDAO.completarDadosAdmin(usuario);
+
             default:
-                break;
+                return usuario;
         }
-        return usuario;
     }
+
 
     public List<UsuarioDTO> listarUsuariosPorTipoDTO(String tipo) throws SQLException {
         List<Usuario> usuarios = listarUsuariosPorTipo(tipo); // método existente
@@ -125,6 +129,10 @@ public class UsuarioService {
         }
 
         return dtos;
+    }
+
+    public List<UsuarioDTO> listarAlunosSemTurma() {
+        return usuarioDAO.listarAlunosSemTurma();
     }
 }
 

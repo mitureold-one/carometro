@@ -29,27 +29,27 @@ public class TurmasController {
         return ResponseEntity.ok("Recebido com sucesso!");
     }
 
-    @PostMapping("/{turmaId}/adicionarAluno/{alunoId}")
+    @PostMapping("/{turma_Id}/adicionarAluno/{aluno_Id}")
     public ResponseEntity<String> adicionarAlunoNaTurma(
-            @PathVariable String turmaId,
-            @PathVariable String alunoId) throws SQLException {
+            @PathVariable String turma_Id,
+            @PathVariable String aluno_Id) throws SQLException {
 
-        turmasService.adicionarAlunoNaTurma(turmaId, alunoId);
+        turmasService.adicionarAlunoNaTurma(turma_Id, aluno_Id);
         return ResponseEntity.ok("Aluno adicionado à turma com sucesso!");
     }
 
-    @PostMapping("/{turmaId}/adicionarProfessor/{professorId}")
+    @PostMapping("/{turma_Id}/adicionarProfessor/{professor_Id}")
     public ResponseEntity<String> adicionarProfessorNaTurma(
-            @PathVariable String turmaId,
-            @PathVariable String professorId) throws SQLException {
+            @PathVariable String turma_Id,
+            @PathVariable String professor_Id) throws SQLException {
 
-        turmasService.adicionarProfessorNaTurma(turmaId, professorId);
+        turmasService.adicionarProfessorNaTurma(turma_Id, professor_Id);
         return ResponseEntity.ok("Professor adicionado à turma com sucesso!");
     }
 
-    @GetMapping("/{turmaId}")
-    public ResponseEntity<TurmaCompletaDTO> buscarTurma(@PathVariable String turmaId) throws SQLException {
-        TurmaCompletaDTO turmaCompleta = turmasService.buscarTurmaCompletaDTO(turmaId);
+    @GetMapping("/{turma_Id}")
+    public ResponseEntity<TurmaCompletaDTO> buscarTurma(@PathVariable String turma_Id) throws SQLException {
+        TurmaCompletaDTO turmaCompleta = turmasService.buscarTurmaCompletaDTO(turma_Id);
         if (turmaCompleta == null) {
             return ResponseEntity.notFound().build();
         }

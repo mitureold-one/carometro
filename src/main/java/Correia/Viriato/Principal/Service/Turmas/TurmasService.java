@@ -42,8 +42,8 @@ public class TurmasService {
         return prefixo + String.format("%03d", numero);
     }
 
-    public void adicionarAlunoNaTurma(String turmaId, String alunoId) throws SQLException {
-        turmasDAO.adicionarAlunoNaTurma(turmaId, alunoId);
+    public void adicionarAlunoNaTurma(String turma_Id, String aluno_Id) throws SQLException {
+        turmasDAO.adicionarAlunoNaTurma(turma_Id, aluno_Id);
     }
 
     public void adicionarProfessorNaTurma(String turmaId, String professorId) throws SQLException {
@@ -55,11 +55,9 @@ public class TurmasService {
         return turmasDAO.listarTodasTurmas();
     }
 
-    public TurmaCompletaDTO buscarTurmaCompletaDTO(String turmaId) throws SQLException {
-        return turmasDAO.buscarTurmaCompletaDTO(turmaId);
+    public TurmaCompletaDTO buscarTurmaCompletaDTO(String turma_Id) throws SQLException {
+        return turmasDAO.buscarTurmaCompletaDTO(turma_Id);
     }
-
-
 
 }
 

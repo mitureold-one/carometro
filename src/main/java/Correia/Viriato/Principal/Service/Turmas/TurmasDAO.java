@@ -42,22 +42,22 @@ public class TurmasDAO {
         }
     }
 
-    public void adicionarAlunoNaTurma(String turmaId, String alunoId) throws SQLException {
+    public void adicionarAlunoNaTurma(String turma_Id, String aluno_Id) throws SQLException {
         String sql = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, turmaId);
-            stmt.setString(2, alunoId);
+            stmt.setString(1, turma_Id);
+            stmt.setString(2, aluno_Id);
             stmt.executeUpdate();
         }
     }
 
-    public void adicionarProfessorNaTurma(String turmaId, String professorId) throws SQLException {
+    public void adicionarProfessorNaTurma(String turma_Id, String professor_Id) throws SQLException {
         String sql = "INSERT INTO turma_professor (turma_id, professor_id) VALUES (?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, turmaId);
-            stmt.setString(2, professorId);
+            stmt.setString(1, turma_Id);
+            stmt.setString(2, professor_Id);
             stmt.executeUpdate();
         }
     }

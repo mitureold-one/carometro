@@ -5,6 +5,7 @@ import java.sql.Date;
 public class AvaliacaoDTO {
     private String disciplina_id;
     private String aluno_id;
+    private String nome_disciplina;
     private Date data_avaliacao;
     private int sociabilidade;       // corrigido
     private int participacao;
@@ -13,15 +14,24 @@ public class AvaliacaoDTO {
 
     public AvaliacaoDTO() {}
 
-    public AvaliacaoDTO(String disciplina_id, String aluno_id, Date data_avaliacao,
+    public AvaliacaoDTO(String disciplina_id, String aluno_id, Date data_avaliacao,String nome_disciplina,
                         int sociabilidade, int participacao, int responsabilidade, int assiduidade) {
         this.disciplina_id = disciplina_id;
         this.aluno_id = aluno_id;
+        this.nome_disciplina = nome_disciplina;
         this.data_avaliacao = data_avaliacao;
         this.sociabilidade = sociabilidade;
         this.participacao = participacao;
         this.responsabilidade = responsabilidade;
         this.assiduidade = assiduidade;
+    }
+
+    public String getNome_disciplina() {
+        return nome_disciplina;
+    }
+
+    public void setNome_disciplina(String nome_disciplina) {
+        this.nome_disciplina = nome_disciplina;
     }
 
     public String getDisciplina_id() {

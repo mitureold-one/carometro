@@ -79,6 +79,28 @@ public class UsuarioDAO {
         });
     }
 
+    // Lista apenas alunos sem turma
+    public List<UsuarioDTO> listarAlunosSemTurma() {
+        String sql = """
+           SELECT u.user_id, u.nome, u.e_mail, u.foto
+                   FROM usuario u
+                   WHERE u.tipo = 'Aluno'
+                     AND NOT EXISTS (
+                         SELECT *
+                         FROM turma_aluno ta
+                         WHERE ta.aluno_id = u.user_id
+                     );
+        """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            UsuarioDTO u = new UsuarioDTO();
+            u.setUser_id(rs.getString("user_id"));
+            u.setNome(rs.getString("nome"));
+            u.setE_mail(rs.getString("e_mail"));
+            return u;
+        });
+    }
+
     // RowMapper para Usuario
     private static class UsuarioRowMapper implements RowMapper<Usuario> {
         @Override

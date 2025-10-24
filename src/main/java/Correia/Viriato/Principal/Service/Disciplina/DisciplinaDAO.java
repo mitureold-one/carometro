@@ -49,7 +49,7 @@ public class DisciplinaDAO {
             while (rs.next()) {
                 disciplinas.add(new Disciplina(
                         rs.getString("disciplina_id"),
-                        rs.getString("nome"),
+                        rs.getString("nome_disciplina"),
                         rs.getString("turma_id")
                 ));
             }
@@ -59,12 +59,12 @@ public class DisciplinaDAO {
     }
 
     public String buscarNomePorId(String disciplinaId) throws SQLException {
-        String sql = "SELECT nome FROM disciplina WHERE disciplina_id = ?";
+        String sql = "SELECT nome_disciplina FROM disciplina WHERE disciplina_id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, disciplinaId);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) return rs.getString("nome");
+            if (rs.next()) return rs.getString("nome_disciplina");
         }
         return "Disciplina desconhecida";
     }

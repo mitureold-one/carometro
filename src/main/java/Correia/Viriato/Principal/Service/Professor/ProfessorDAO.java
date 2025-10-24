@@ -19,7 +19,7 @@ public class ProfessorDAO {
     }
 
     // Completa dados do professor no DTO
-    public void completarDadosProfessor(UsuarioDTO usuario) {
+    public UsuarioDTO completarDadosProfessor(UsuarioDTO usuario) {
         String sql = "SELECT * FROM professor WHERE professor_id = ?";
         jdbcTemplate.queryForObject(sql, new Object[]{usuario.getUser_id()}, (rs, rowNum) -> {
             usuario.setNumeroContrato(rs.getString("numero_contrato"));
@@ -29,6 +29,7 @@ public class ProfessorDAO {
             usuario.setCategoria(rs.getString("categoria"));
             return usuario;
         });
+        return usuario;
     }
 
     // Salvar professor

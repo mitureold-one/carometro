@@ -15,12 +15,13 @@ public class AdministradorDAO {
     }
 
     // Completa dados do administrador no DTO
-    public void completarDadosAdmin(UsuarioDTO usuario) {
+    public UsuarioDTO completarDadosAdmin(UsuarioDTO usuario) {
         String sql = "SELECT * FROM administradores WHERE administrador_id = ?";
         jdbcTemplate.queryForObject(sql, new Object[]{usuario.getUser_id()}, (rs, rowNum) -> {
             usuario.setSetor(rs.getString("setor"));
             return usuario;
         });
+        return usuario;
     }
 
     // Salvar administrador

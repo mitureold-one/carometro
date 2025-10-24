@@ -59,8 +59,14 @@ public class UsuarioController {
             if (usuario == null) return ResponseEntity.notFound().build();
             return ResponseEntity.ok(usuario);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/alunosDisponiveis")
+    public List<UsuarioDTO> listarAlunosDisponiveis() {
+        return usuarioService.listarAlunosSemTurma();
     }
 
 
@@ -70,6 +76,7 @@ public class UsuarioController {
         byte[] bytes = Base64.getDecoder().decode(fotoBase64);
         return new SerialBlob(bytes);
     }
+
 }
 
 
